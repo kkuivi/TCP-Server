@@ -113,6 +113,91 @@ describe("Front backend test", function () {
         );
     });
 
+    it("should not got past top border", (done) => {
+        client.run(["steps 15", "coord", "steps, 1", "coord"], (err, lines) => {
+            expect(err).toNotExist();
+            expect(lines).toEqual(["(0,15)", "(0,15)"]);
+            done();
+        });
+    });
+
+    it("should not got past top-right border", (done) => {
+        client.run(
+            ["right 1", "steps 15", "coord", "steps 1", "coord"],
+            (err, lines) => {
+                expect(err).toNotExist();
+                expect(lines).toEqual(["(0,29)", "(0,29)"]);
+                done();
+            }
+        );
+    });
+
+    it("should not got past top-left border", (done) => {
+        client.run(
+            ["right 7", "steps 15", "coord", "steps 1", "coord"],
+            (err, lines) => {
+                expect(err).toNotExist();
+                expect(lines).toEqual(["(0,0)", "(0,0)"]);
+                done();
+            }
+        );
+    });
+
+    it("should not got past right border", (done) => {
+        client.run(
+            ["right 2", "steps 15", "coord", "steps 1", "coord"],
+            (err, lines) => {
+                expect(err).toNotExist();
+                expect(lines).toEqual(["(15,29)", "(15,29)"]);
+                done();
+            }
+        );
+    });
+
+    it("should not got past left border", (done) => {
+        client.run(
+            ["right 6", "steps 15", "coord", "steps 1", "coord"],
+            (err, lines) => {
+                expect(err).toNotExist();
+                expect(lines).toEqual(["(15,0)", "(15,0)"]);
+                done();
+            }
+        );
+    });
+
+    it("should not got past bottom border", (done) => {
+        client.run(
+            ["right 4", "steps 15", "coord", "steps 1", "coord"],
+            (err, lines) => {
+                expect(err).toNotExist();
+                expect(lines).toEqual(["(29,15)", "(29,15)"]);
+                done();
+            }
+        );
+    });
+
+    it("should not got past bottom-right border", (done) => {
+        client.run(
+            ["right 3", "steps 15", "coord", "steps 1", "coord"],
+            (err, lines) => {
+                expect(err).toNotExist();
+                expect(lines).toEqual(["(29,29)", "(29,29)"]);
+                done();
+            }
+        );
+    });
+
+    it("should not got past bottom-left border", (done) => {
+        client.run(
+            ["right 5", "steps 15", "coord", "steps 1", "coord"],
+            (err, lines) => {
+                expect(err).toNotExist();
+                expect(lines).toEqual(["(29,1)", "(29,1)"]);
+                done();
+            }
+        );
+    });
+
     it("should draw multiple shapes concurrently", (done) => {
         async.parallel(
             {

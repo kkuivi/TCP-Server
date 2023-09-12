@@ -1,24 +1,29 @@
 import socket
 
+host = socket.gethostname() 
+port = 8124 
 
 def client_program():
-    host = socket.gethostname()  # as both code is running on the same pc
-    port = 8124  # socket server  port number
+    ClientSocket = socket.socket()  
+    print("Waiting for connection...")
+    
+    try:
+        ClientSocket.connect((host, port)) 
+    except socket.error as e:
+        print(str(e))
 
-    client_socket = socket.socket()  # instantiate
-    client_socket.connect((host, port))  # connect to the server
+    Response = ClientSocket.recv(2048)
+    
+    while True:
+        message = input("-> ")
+        ClientSocket.send(message.encode())  
+        reply = ClientSocket.recv(2048)
+        decoded_reply = reply.decode()
+        print(decoded_reply) 
+        if message.lower().strip() == "quit":
+            break
 
-    message = input(" -> ")  # take input
-
-    while message.lower().strip() != "quit":
-        client_socket.send(message.encode())  # send message
-        data = client_socket.recv(2048).decode()  # receive response
-
-        print(data)  # show in terminal
-
-        message = input(" -> ")  # again take input
-
-    client_socket.close()  # close the connection
+    ClientSocket.close()  # close the connection
 
 
 if __name__ == "__main__":
